@@ -63,7 +63,7 @@ function displayTime(seconds, elementId) {
     }
 
     if (elementId == "counter") {
-        displayText = "Total Time: ";
+        displayText = "Total: ";
     }
 
     var hours = Math.floor((seconds / 60 / 60));
@@ -137,9 +137,12 @@ function countDown() {
         secondsLeft--;
     }
     else {
-        totalTime+=startSeconds;
         onReset(0);
         onStart(0);
+    }
+
+    if (secondsLeft <= startSeconds){
+        totalTime++;
     }
 
     // Handle for extra20 with (startSeconds + #)
