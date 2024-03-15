@@ -138,7 +138,6 @@ function countDown() {
     }
     else {
         totalTime+=startSeconds;
-        displayTime(totalTime, "counter");
         onReset(0);
         onStart(0);
     }
@@ -153,6 +152,7 @@ function countDown() {
     }
 
     displayTime(secondsLeft);
+    displayTime(totalTime, "counter");
 }
 
 </script>
