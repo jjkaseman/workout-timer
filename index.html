@@ -59,7 +59,7 @@ function displayTime(seconds, elementId) {
     var displayText = "";
 
     if (elementId == null) {
-        elementId = "clock";
+        elementId = "timeLeft";
     }
 
     if (elementId == "counter") {
@@ -101,7 +101,7 @@ function onStart(clicked) {
         document.getElementById("extra20").disabled = true;
     }
     else {
-        document.getElementById("clock").innerHTML = "NaN";
+        document.getElementById("timeLeft").innerHTML = "NaN";
     }
 }
 
@@ -166,7 +166,7 @@ function countDown() {
 </head>
 <body onload="initialLoad()">
     <div>
-        <span id="clock" class="huge"></span>
+        <span id="timeLeft" class="huge"></span>
     </div>
     <div>
         <span id="counter" class="normal"></span>
