@@ -149,7 +149,7 @@ function countDown() {
         }
     }
 
-    if (secondsLeft < startSeconds && canContinue == true){
+    if (secondsLeft < startSeconds && (canContinue == true || secondsLeft > 0)){
         totalTime++;
     }
 
