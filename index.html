@@ -95,6 +95,7 @@ function onStart(clicked) {
 
     if (clicked) {
         document.getElementById("started").innerHTML = "Start Time: " + new Date().toLocaleTimeString();
+        document.getElementById("stopped").innerHTML = "";
     }
     
     isPaused = 0;
@@ -112,6 +113,8 @@ function onStart(clicked) {
 function onPause() {
     clearInterval(interval);
     isPaused = 1;
+    
+    document.getElementById("stopped").innerHTML = "Stop Time: " + new Date().toLocaleTimeString();
 }
 
 function onReset(clicked) {
@@ -160,9 +163,11 @@ function countDown() {
 
     if (secondsLeft < startSeconds){
         if (secondsLeft == 0) {
-            document.getElementById("checky").innerHTML += secondsLeft + " | "
             if (canContinue == true) {
                 totalTime++;
+            }
+            else {                
+                document.getElementById("checky").innerHTML += "<br/>" + secondsLeft + " | " + canContinue + " | " + totalTime
             }
         } else {        
             totalTime++;
