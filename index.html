@@ -137,8 +137,11 @@ function countDown() {
         secondsLeft--;
     }
     else {
-        onReset(0);
-        onStart(0);
+        if (document.getElementById("continue").checked == true)
+        {
+            onReset(0);
+            onStart(0);
+        }
     }
 
     if (secondsLeft < startSeconds){
@@ -188,6 +191,7 @@ function countDown() {
     </table>
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
+        Keep looping: <input class="checkbox" type="checkbox" id="continue" />
     </div>
 </body>
 </html>
