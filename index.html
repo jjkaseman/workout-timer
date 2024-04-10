@@ -40,6 +40,7 @@
 //#region Initial values
 var startSeconds = 0;
 var secondsLeft = startSeconds;
+var interval = 0;
 var inProgress = 0;
 var warningSound = new Audio('warningSound.mp3');
 var endSound = new Audio('endSound.mp3');
@@ -58,7 +59,7 @@ function displayTime(seconds, elementId) {
     var displayText = "";
 
     if (elementId == null) {
-        elementId = "timeLeft";
+        elementId = "clock";
     }
 
     if (elementId == "counter") {
@@ -86,32 +87,27 @@ function onKickoff(addS) {
 }
 
 function onStart(clicked) {
+    clearInterval(interval);
 
     if (clicked && document.getElementById("extra20").checked == true && isPaused == 0) {
             secondsLeft+=20;
-    }
-
-    if (clicked) {
-        document.getElementById("started").innerHTML = "Start Time: " + new Date().toLocaleTimeString();
-        document.getElementById("stopped").innerHTML = "";
     }
     
     isPaused = 0;
 
     if (startSeconds > 0) {
-        setTimeout(countDown, 1000);
+        interval = setInterval(countDown, 1000);
         inProgress = 1;
         document.getElementById("extra20").disabled = true;
     }
     else {
-        document.getElementById("timeLeft").innerHTML = "NaN";
+        document.getElementById("clock").innerHTML = "NaN";
     }
 }
 
 function onPause() {
+    clearInterval(interval);
     isPaused = 1;
-    
-    document.getElementById("stopped").innerHTML = "Stop Time: " + new Date().toLocaleTimeString();
 }
 
 function onReset(clicked) {
@@ -120,21 +116,16 @@ function onReset(clicked) {
         startSeconds = 0;
         totalTime = 0;
         displayTime(totalTime, "counter");
-        document.getElementById("started").innerHTML = "";
-        document.getElementById("stopped").innerHTML = "";
         document.getElementById("extra20").disabled = false;
-    }
-    if ((clicked == 1 && inProgress == 1) || (clicked == -1)) {
-        document.getElementById("stopped").innerHTML = "Stop Time: " + new Date().toLocaleTimeString();
-    }
+    } 
 
     if (clicked == 1) {
         secondsLeft = startSeconds;
-    } 
-    if (clicked == 0) {
+    } else {
         secondsLeft = startSeconds - 1;
     }
 
+    clearInterval(interval);
     inProgress = 0;
     isPaused = 0;
     displayTime(secondsLeft);
@@ -142,33 +133,16 @@ function onReset(clicked) {
 
 function countDown() {
 
-    var canContinue = document.getElementById("continue").checked;
-    
     if (secondsLeft > 0) {
         secondsLeft--;
-        onStart(0);
     }
     else {
-        if (canContinue == true) {
-            onReset(0);
-            onStart(0);
-        }
-        else {
-            onReset(-1);
-        }
+        onReset(0);
+        onStart(0);
     }
 
     if (secondsLeft < startSeconds){
-        if (secondsLeft == 0) {
-            if (canContinue == true) {
-                totalTime++;
-            }
-            else {                
-                document.getElementById("checky").innerHTML += "<br/>" + secondsLeft + " | " + canContinue + " | " + totalTime + " | " + inProgress + " | " + startSeconds
-            }
-        } else {        
-            totalTime++;
-        }
+        totalTime++;
     }
 
     // Handle for extra20 with (startSeconds + #)
@@ -186,13 +160,13 @@ function countDown() {
 
 </script>
 <title>
-    Timer
+    Workout Timer
 </title>
 <link rel="icon" href="favicon.png">
 </head>
 <body onload="initialLoad()">
     <div>
-        <span id="timeLeft" class="huge"></span>
+        <span id="clock" class="huge"></span>
     </div>
     <div>
         <span id="counter" class="normal"></span>
@@ -214,15 +188,6 @@ function countDown() {
     </table>
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
-        Keep looping: <input class="checkbox" type="checkbox" id="continue" checked />
-    </div>
-    <div>
-        <span id="started" class="normal"></span>
-    </div>
-    <div>
-        <span id="stopped" class="normal"></span>
-    </div>
-    <div id="checky">
     </div>
 </body>
 </html>
