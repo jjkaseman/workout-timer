@@ -167,7 +167,7 @@ function countDown() {
                 totalTime++;
             }
             else {                
-                document.getElementById("checky").innerHTML += "<br/>" + secondsLeft + " | " + canContinue + " | " + totalTime
+                document.getElementById("checky").innerHTML += "<br/>" + secondsLeft + " | " + canContinue + " | " + totalTime + " | " + interval
             }
         } else {        
             totalTime++;
@@ -200,12 +200,6 @@ function countDown() {
     <div>
         <span id="counter" class="normal"></span>
     </div>
-    <div>
-        <span id="started" class="normal"></span>
-    </div>
-    <div>
-        <span id="stopped" class="normal"></span>
-    </div>
     <table>
         <tr>
             <td><input class="button" id="start" type="button" value="Start" onclick="onStart(1)"></td>
@@ -224,6 +218,12 @@ function countDown() {
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
         Keep looping: <input class="checkbox" type="checkbox" id="continue" checked />
+    </div>
+    <div>
+        <span id="started" class="normal"></span>
+    </div>
+    <div>
+        <span id="stopped" class="normal"></span>
     </div>
     <div id="checky">
     </div>
