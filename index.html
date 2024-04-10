@@ -151,6 +151,7 @@ function countDown() {
 
     if (secondsLeft < startSeconds){
         if (secondsLeft == 0) {
+            document.getElementById("checky").innerHTML += secondsLeft + " | "
             if (canContinue == true) {
                 totalTime++;
             }
@@ -203,6 +204,8 @@ function countDown() {
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
         Keep looping: <input class="checkbox" type="checkbox" id="continue" checked />
+    </div>
+    <div id="checky">
     </div>
 </body>
 </html>
