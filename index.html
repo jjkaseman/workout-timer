@@ -137,9 +137,8 @@ function countDown() {
         secondsLeft--;
     }
     else {
-        if (document.getElementById("continue").checked == true)
-        {
-            onReset(0);
+        onReset(0);
+        if (document.getElementById("continue").checked == true) {
             onStart(0);
         }
     }
