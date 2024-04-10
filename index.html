@@ -121,8 +121,12 @@ function onReset(clicked) {
         totalTime = 0;
         displayTime(totalTime, "counter");
         document.getElementById("started").innerHTML = "";
+        document.getElementById("stopped").innerHTML = "";
         document.getElementById("extra20").disabled = false;
-    } 
+    }
+    if (clicked == 1 && inProgress == 1) {
+        document.getElementById("stopped").innerHTML = "Stop Time: " + new Date().toLocaleTimeString();
+    }
 
     if (clicked == 1) {
         secondsLeft = startSeconds;
@@ -193,6 +197,9 @@ function countDown() {
     </div>
     <div>
         <span id="started" class="normal"></span>
+    </div>
+    <div>
+        <span id="stopped" class="normal"></span>
     </div>
     <table>
         <tr>
