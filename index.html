@@ -124,7 +124,7 @@ function onReset(clicked) {
         document.getElementById("stopped").innerHTML = "";
         document.getElementById("extra20").disabled = false;
     }
-    if (clicked == 1 && inProgress == 1) {
+    if ((clicked == 1 && inProgress == 1) || (clicked == -1)) {
         document.getElementById("stopped").innerHTML = "Stop Time: " + new Date().toLocaleTimeString();
     }
 
