@@ -92,6 +92,10 @@ function onStart(clicked) {
     if (clicked && document.getElementById("extra20").checked == true && isPaused == 0) {
             secondsLeft+=20;
     }
+
+    if (clicked) {
+        document.getElementById("started").innerHTML = "Start Time: " + new Date().toLocaleTimeString();
+    }
     
     isPaused = 0;
 
@@ -116,6 +120,7 @@ function onReset(clicked) {
         startSeconds = 0;
         totalTime = 0;
         displayTime(totalTime, "counter");
+        document.getElementById("started").innerHTML = "";
         document.getElementById("extra20").disabled = false;
     } 
 
@@ -185,6 +190,9 @@ function countDown() {
     </div>
     <div>
         <span id="counter" class="normal"></span>
+    </div>
+    <div>
+        <span id="started" class="normal"></span>
     </div>
     <table>
         <tr>
