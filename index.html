@@ -37,7 +37,7 @@
 //#region Initial values
 var startSeconds = 0;
 var secondsLeft = startSeconds;
-var interval = 0;
+var timeOut = 0;
 var inProgress = 0;
 var warningSound = new Audio('warningSound.mp3');
 var endSound = new Audio('endSound.mp3');
@@ -85,20 +85,23 @@ function onKickoff(addS) {
 }
 
 function onStart(clicked) {
-    clearInterval(interval);
 
-    if (clicked && document.getElementById("extra20").checked == true && isPaused == 0) {
+    if (clicked && timeOut == 0 && isPaused == 0) {
+        
+        showCurrentTime("startTime");
+
+        if (document.getElementById("extra20").checked == true) {
             secondsLeft+=20;
+        }
     }
 
-    if (clicked) {
-        showCurrentTime("startTime");
+    if (clicked && timeOut == 0 && startSeconds > 0 && ((secondsLeft == startSeconds) || (document.getElementById("extra20").checked == true && secondsLeft > startSeconds))) {
+        timeOut = setTimeout(countDown, 1000);
     }
     
     isPaused = 0;
 
     if (startSeconds > 0) {
-        interval = setInterval(countDown, 1000);
         inProgress = 1;
         document.getElementById("extra20").disabled = true;
     }
@@ -113,7 +116,8 @@ function showCurrentTime(elementId) {
 }
 
 function onPause() {
-    clearInterval(interval);
+    clearTimeout(timeOut);
+    timeOut = 0;
     isPaused = 1;
 }
 
@@ -128,18 +132,21 @@ function onReset(clicked) {
     } 
 
     if (clicked == 1) {
+        clearTimeout(timeOut);
+        timeOut = 0;
         secondsLeft = startSeconds;
     } else {
         secondsLeft = startSeconds - 1;
     }
 
-    clearInterval(interval);
     inProgress = 0;
     isPaused = 0;
     displayTime(secondsLeft);
 }
 
 function countDown() {
+
+    timeOut = setTimeout(countDown, 1000);
 
     if (secondsLeft > 0) {
         secondsLeft--;
@@ -198,5 +205,6 @@ function countDown() {
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
     </div>
     <div id="startTime" class="normal"></div>
+    <div id="debuggy"></div>
 </body>
 </html>
