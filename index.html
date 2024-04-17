@@ -88,7 +88,8 @@ function onStart(clicked) {
 
     if (clicked && timeOut == 0 && isPaused == 0) {
         
-        showCurrentTime("startTime");
+        showCurrentTime("startTime", "Started");
+        document.getElementById("stopTime").innerHTML = "";
 
         if (document.getElementById("extra20").checked == true) {
             secondsLeft+=20;
@@ -110,9 +111,9 @@ function onStart(clicked) {
     }
 }
 
-function showCurrentTime(elementId) {
+function showCurrentTime(elementId, text) {
     var date = new Date();
-    document.getElementById(elementId).innerHTML = "Started: " + date.toLocaleTimeString();
+    document.getElementById(elementId).innerHTML = text + ": " + date.toLocaleTimeString();
 }
 
 function onPause() {
@@ -128,7 +129,9 @@ function onReset(clicked) {
         totalTime = 0;
         displayTime(totalTime, "counter");
         document.getElementById("extra20").disabled = false;
+        document.getElementById("continue").checked = true;
         document.getElementById("startTime").innerHTML = "";
+        document.getElementById("stopTime").innerHTML = "";
     } 
 
     if (clicked == 1) {
@@ -146,7 +149,17 @@ function onReset(clicked) {
 
 function countDown() {
 
-    timeOut = setTimeout(countDown, 1000);
+    var keepGoing = document.getElementById("continue").checked;
+
+    if (keepGoing || (secondsLeft > 1 && keepGoing == false)) {
+        timeOut = setTimeout(countDown, 1000);
+    } else {
+        timeOut = 0;
+        inProgress = 0;
+        secondsLeft = startSeconds + 1;
+        totalTime++;
+        showCurrentTime("stopTime", "Stopped");
+    }
 
     if (secondsLeft > 0) {
         secondsLeft--;
@@ -203,8 +216,10 @@ function countDown() {
     </table>
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
+        Keep looping: <input class="checkbox" type="checkbox" id="continue" checked />
     </div>
     <div id="startTime" class="normal"></div>
+    <div id="stopTime" class="normal"></div>
     <div id="debuggy"></div>
 </body>
 </html>
