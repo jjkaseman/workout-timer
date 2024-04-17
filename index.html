@@ -1,13 +1,13 @@
 <html>
 <head>
 <style>
-    span {
+    div {
         font-family: Arial, Helvetica, sans-serif;
     }
-    span.huge {
+    .huge {
         font-size: 340px;
     }
-    span.normal {
+    .normal {
         font-size: 36px;
     }
     div, td {
@@ -30,9 +30,6 @@
     .button:hover {
         background-color: navy;
     }
-    div {
-        font-family: Arial, Helvetica, sans-serif;
-    }
 </style>
 
 <script>
@@ -45,6 +42,7 @@ var inProgress = 0;
 var warningSound = new Audio('warningSound.mp3');
 var endSound = new Audio('endSound.mp3');
 var halfSound = new Audio('halfSound.mp3');
+var minuteSound = new Audio('minuteSound.mp3');
 var totalTime = 0;
 var isPaused = 0;
 //#endregion
@@ -92,6 +90,10 @@ function onStart(clicked) {
     if (clicked && document.getElementById("extra20").checked == true && isPaused == 0) {
             secondsLeft+=20;
     }
+
+    if (clicked) {
+        showCurrentTime("startTime");
+    }
     
     isPaused = 0;
 
@@ -103,6 +105,11 @@ function onStart(clicked) {
     else {
         document.getElementById("clock").innerHTML = "NaN";
     }
+}
+
+function showCurrentTime(elementId) {
+    var date = new Date();
+    document.getElementById(elementId).innerHTML = "Started: " + date.toLocaleTimeString();
 }
 
 function onPause() {
@@ -117,6 +124,7 @@ function onReset(clicked) {
         totalTime = 0;
         displayTime(totalTime, "counter");
         document.getElementById("extra20").disabled = false;
+        document.getElementById("startTime").innerHTML = "";
     } 
 
     if (clicked == 1) {
@@ -150,7 +158,9 @@ function countDown() {
         endSound.play();
     } else if (secondsLeft == 11 || secondsLeft == (startSeconds + 11)) {
         warningSound.play();
-    } else if (secondsLeft == (Math.floor((startSeconds / 2)) + 1)) {
+    } else if (secondsLeft != startSeconds && secondsLeft > 10 && startSeconds > 60 && secondsLeft % 60 == 0){
+        minuteSound.play();
+    } else if (startSeconds < 60 && secondsLeft == (Math.floor((startSeconds / 2)) + 1)) {
         halfSound.play();
     }
 
@@ -160,16 +170,14 @@ function countDown() {
 
 </script>
 <title>
-    Workout Timer
+    Timer
 </title>
 <link rel="icon" href="favicon.png">
 </head>
 <body onload="initialLoad()">
-    <div>
-        <span id="clock" class="huge"></span>
+    <div id="clock" class="huge">
     </div>
-    <div>
-        <span id="counter" class="normal"></span>
+    <div id="counter" class="normal">
     </div>
     <table>
         <tr>
@@ -189,5 +197,6 @@ function countDown() {
     <div>
         Start with +20s: <input class="checkbox" type="checkbox" id="extra20" />
     </div>
+    <div id="startTime" class="normal"></div>
 </body>
 </html>
