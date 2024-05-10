@@ -97,7 +97,7 @@ function onStart(clicked) {
     }
 
     if (clicked && timeOut == 0 && startSeconds > 0 && ((secondsLeft == startSeconds) || (document.getElementById("extra20").checked == true && secondsLeft > startSeconds))) {
-        timeOut = setTimeout(countDown, 985);
+        timeOut = setTimeout(countDown, 970);
     }
     
     isPaused = 0;
@@ -153,7 +153,7 @@ function countDown() {
     var shh = document.getElementById("quiet").checked;
 
     if (keepGoing || (secondsLeft > 1 && keepGoing == false)) {
-        timeOut = setTimeout(countDown, 985);
+        timeOut = setTimeout(countDown, 970);
     } else {
         timeOut = 0;
         inProgress = 0;
