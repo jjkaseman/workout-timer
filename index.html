@@ -49,7 +49,7 @@ var minuteSound = new Audio('minuteSound.mp3');    // Play at the minute mark fo
 var totalTime = 0;    // Time elapsed since looping started
 var isPaused = 0;    // Flag for if the timer is only paused
 var timeOutLength = 951;    // How long to wait before each "second"
-var version = "1.22";  // Starting at 1.18 for no good reason
+var version = "1.23";  // Starting at 1.18 for no good reason
 //#endregion
 
 function initialLoad() {
@@ -154,9 +154,11 @@ function onReset(clicked) {
 }
 
 function countDown() {
+    
+    document.getElementById("debuggy").innerHTML = totalTime + "|" + startSeconds + "|" + secondsLeft + "|" + inProgress;
 
     var keepGoing = document.getElementById("continue").checked;
-    var shh = document.getElementById("quiet").checked;
+    var shh = document.getElementById("quiet").checked;    
 
     if (keepGoing || (secondsLeft > 1 && keepGoing == false)) {
         timeOut = setTimeout(countDown, timeOutLength);
@@ -167,8 +169,6 @@ function countDown() {
         totalTime++;
         showCurrentTime("stopTime", "Stopped");
     }
-
-    document.getElementById("debuggy").innerHTML = totalTime + "|" + startSeconds + "|" + secondsLeft + "|" + inProgress;
 
     if (secondsLeft > 0) {
         secondsLeft--;
