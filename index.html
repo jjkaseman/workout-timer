@@ -100,12 +100,6 @@ function onStart(clicked) {
     }
 
     if (clicked && timeOut == 0 && startSeconds > 0 && ((secondsLeft == startSeconds) || (document.getElementById("extra20").checked == true && secondsLeft > startSeconds))) {
-        realTimeOutLength = (+new Date()) % 1000;
-        if (realTimeOutLength < timeOutLength) {
-            realTimeOutLength = timeOutLength - realTimeOutLength;
-        } else {
-            realTimeOutLength = 2;
-        }
         timeOut = setTimeout(countDown, getTimeOutLength());
     }
     
