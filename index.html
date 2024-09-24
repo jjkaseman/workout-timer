@@ -48,8 +48,8 @@ var halfSound = new Audio('halfSound.mp3');    // Plays at the halfway mark for 
 var minuteSound = new Audio('minuteSound.mp3');    // Play at the minute mark for each loop
 var totalTime = 0;    // Time elapsed since looping started
 var isPaused = 0;    // Flag for if the timer is only paused
-var timeOutLength = 950;    // How long to wait before each "second"
-var version = "1.28";  // Starting at 1.18 for no good reason
+var timeOutLength = 990;    // Maximum length to wait before each "second"
+var version = "1.29";  // Starting at 1.18 for no good reason
 //#endregion
 
 function initialLoad() {
@@ -100,7 +100,13 @@ function onStart(clicked) {
     }
 
     if (clicked && timeOut == 0 && startSeconds > 0 && ((secondsLeft == startSeconds) || (document.getElementById("extra20").checked == true && secondsLeft > startSeconds))) {
-        timeOut = setTimeout(countDown, timeOutLength);
+        realTimeOutLength = (+new Date()) % 1000;
+        if (realTimeOutLength < timeOutLength) {
+            realTimeOutLength = timeOutLength - realTimeOutLength;
+        } else {
+            realTimeOutLength = 2;
+        }
+        timeOut = setTimeout(countDown, getTimeOutLength());
     }
     
     isPaused = 0;
@@ -112,6 +118,16 @@ function onStart(clicked) {
     else {
         document.getElementById("clock").innerHTML = "NaN";
     }
+}
+
+function getTimeOutLength() {
+    var realTimeOutLength = (+new Date()) % 1000;
+        if (realTimeOutLength < timeOutLength) {
+            realTimeOutLength = timeOutLength - realTimeOutLength;
+        } else {
+            realTimeOutLength = 2;
+        }
+    return realTimeOutLength;
 }
 
 function showCurrentTime(elementId, text) {
@@ -162,7 +178,7 @@ function countDown() {
     var shh = document.getElementById("quiet").checked;    
 
     if (keepGoing || (secondsLeft > 1 && keepGoing == false)) {
-        timeOut = setTimeout(countDown, timeOutLength);
+        timeOut = setTimeout(countDown, getTimeOutLength());
     } else {
         timeOut = 0;
         inProgress = 0;
