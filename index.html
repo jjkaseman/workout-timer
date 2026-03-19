@@ -49,7 +49,7 @@ var minuteSound = new Audio('minuteSound.mp3');    // Play at the minute mark fo
 var totalTime = 0;    // Time elapsed since looping started
 var isPaused = 0;    // Flag for if the timer is only paused
 var timeOutLength = 993;    // Maximum length to wait before each "second"
-var version = "1.36";  // Starting at 1.18 for no good reason
+var version = "1.37";  // Starting at 1.18 for no good reason
 var lastTime = Math.floor((+new Date())/1000);  // Track what the time was on the last loop
 //#endregion
 
@@ -57,7 +57,6 @@ function initialLoad() {
     displayTime(secondsLeft);
     displayTime(totalTime, "counter");
     document.getElementById("version").innerHTML = "Version " + version;
-    document.getElementById("lastTime").innerHTML = lastTime;
 }
 
 function displayTime(seconds, elementId) {
@@ -117,11 +116,12 @@ function onStart(clicked) {
 }
 
 function getTimeOutLength() {
-    var realTimeOutLength = (+new Date()) % 1000;
+    return 100;
+    /* var realTimeOutLength = (+new Date()) % 1000;
         if (realTimeOutLength < timeOutLength && realTimeOutLength < 500) {
             realTimeOutLength = timeOutLength - realTimeOutLength;
         } 
-    return realTimeOutLength;
+    return realTimeOutLength; */
 }
 
 function showCurrentTime(elementId, text) {
@@ -168,11 +168,17 @@ function countDown() {
         showCurrentTime("startTime", "Started");
     }
 
+    var currentTime = Math.floor((+new Date())/1000);
     var keepGoing = document.getElementById("continue").checked;
     var shh = document.getElementById("quiet").checked;    
 
     if (keepGoing || (secondsLeft > 1 && keepGoing == false)) {
+        if (currentTime == lastTime) {                
         timeOut = setTimeout(countDown, getTimeOutLength());
+        }
+        else {
+            lastTime = currentTime;
+        }
     } else {
         timeOut = 0;
         inProgress = 0;
@@ -241,7 +247,6 @@ function countDown() {
     <div>
         Skip intermediary sounds: <input class="checkbox" type="checkbox" id="quiet" />
     </div>
-    <div id="lastTime"></div>
     <div id="startTime" class="normal"></div>
     <div id="stopTime" class="normal"></div>
     <div id="debuggy"></div>
