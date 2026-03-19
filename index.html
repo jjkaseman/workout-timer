@@ -49,8 +49,8 @@ var minuteSound = new Audio('minuteSound.mp3');    // Play at the minute mark fo
 var totalTime = 0;    // Time elapsed since looping started
 var isPaused = 0;    // Flag for if the timer is only paused
 var timeOutLength = 993;    // Maximum length to wait before each "second"
-var version = "1.33";  // Starting at 1.18 for no good reason
-var lastTime = +new Date();  // Track what the time was on the last loop
+var version = "1.34";  // Starting at 1.18 for no good reason
+var lastTime = Math.Floor(+new Date()/1000);  // Track what the time was on the last loop
 //#endregion
 
 function initialLoad() {
